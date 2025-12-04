@@ -1,0 +1,578 @@
+*,
+*:before,
+*:after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #080710;
+    font-family: 'Poppins', sans-serif;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* Animated Background Shapes */
+.background {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.background .shape {
+    height: 300px;
+    width: 300px;
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.6;
+}
+
+.shape:nth-child(1) {
+    background: linear-gradient(#1845ad, #23a2f6);
+    left: -100px;
+    top: -100px;
+    animation: float 8s ease-in-out infinite;
+}
+
+.shape:nth-child(2) {
+    background: linear-gradient(to right, #ff512f, #f09819);
+    right: -50px;
+    bottom: -100px;
+    animation: float 10s ease-in-out infinite reverse;
+}
+
+.shape:nth-child(3) {
+    background: linear-gradient(to right, #cc2b5e, #753a88);
+    left: 40%;
+    top: 40%;
+    width: 200px;
+    height: 200px;
+    animation: float 12s ease-in-out infinite 2s;
+}
+
+@keyframes float {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+
+    33% {
+        transform: translate(30px, -50px) rotate(10deg);
+    }
+
+    66% {
+        transform: translate(-20px, 20px) rotate(-5deg);
+    }
+
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+}
+
+/* Main Container (Split Screen) */
+.main-container {
+    display: flex;
+    width: 900px;
+    height: 600px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+/* Left Side: Login Form */
+.login-container {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+}
+
+.logo-area {
+    font-size: 24px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-area i {
+    color: #23a2f6;
+}
+
+.login-form h3 {
+    font-size: 28px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    color: #aaa;
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.input-group input {
+    display: block;
+    height: 50px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.07);
+    border-radius: 8px;
+    padding: 0 15px 0 45px;
+    /* Space for icon */
+    font-size: 14px;
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+    background-color: rgba(255, 255, 255, 0.12);
+    border-color: #23a2f6;
+    box-shadow: 0 0 15px rgba(35, 162, 246, 0.2);
+}
+
+.input-group label {
+    position: absolute;
+    top: 50%;
+    left: 45px;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: #aaa;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.input-group input:focus~label,
+.input-group input:valid~label {
+    top: -10px;
+    left: 10px;
+    font-size: 12px;
+    color: #23a2f6;
+    background: #080710;
+    /* Match bg to hide line */
+    padding: 0 5px;
+}
+
+.input-group>i {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    transition: color 0.3s;
+}
+
+.input-group .fa-user,
+.input-group .fa-lock {
+    left: 15px;
+}
+
+.input-group .fa-eye,
+.input-group .fa-eye-slash {
+    right: 15px;
+    cursor: pointer;
+}
+
+.input-group input:focus~i {
+    color: #23a2f6;
+}
+
+/* Options: Remember Me & Forgot Password */
+.options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    font-size: 13px;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    color: #ddd;
+    cursor: pointer;
+    user-select: none;
+}
+
+.remember-me input {
+    display: none;
+}
+
+.checkmark-box {
+    width: 16px;
+    height: 16px;
+    border: 1px solid #555;
+    border-radius: 3px;
+    margin-right: 8px;
+    position: relative;
+    transition: all 0.2s;
+}
+
+.remember-me input:checked~.checkmark-box {
+    background: #23a2f6;
+    border-color: #23a2f6;
+}
+
+.remember-me input:checked~.checkmark-box:after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 1px;
+    width: 4px;
+    height: 9px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.forgot-pass {
+    color: #23a2f6;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.forgot-pass:hover {
+    color: #6abcfc;
+    text-decoration: underline;
+}
+
+/* Button */
+button {
+    width: 100%;
+    background: linear-gradient(45deg, #1845ad, #23a2f6);
+    color: #ffffff;
+    padding: 14px 0;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(35, 162, 246, 0.3);
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(35, 162, 246, 0.4);
+}
+
+/* Divider */
+.divider {
+    margin: 25px 0;
+    text-align: center;
+    position: relative;
+}
+
+.divider span {
+    background: #080710;
+    /* Match body bg? No, container is transparent. */
+    /* Actually we need to be careful with transparent bg. 
+       Let's just use a border-top approach with a span in middle */
+    color: #aaa;
+    font-size: 12px;
+    padding: 0 10px;
+    position: relative;
+    z-index: 1;
+}
+
+.divider:before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    z-index: 0;
+}
+
+/* Social Buttons */
+.social {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.social div {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 10px;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.social div:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.social .go {
+    color: #db4437;
+}
+
+.social .fb {
+    color: #4267B2;
+}
+
+.signup-link {
+    text-align: center;
+    font-size: 14px;
+    color: #aaa;
+}
+
+.signup-link a {
+    color: #23a2f6;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+/* Right Side: Ads Carousel */
+.ads-container {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    display: none;
+    /* Hidden on mobile */
+}
+
+@media (min-width: 768px) {
+    .ads-container {
+        display: block;
+    }
+}
+
+.carousel {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    display: flex;
+    align-items: flex-end;
+}
+
+.slide.active {
+    opacity: 1;
+}
+
+/* Gradient Overlay for Text Readability */
+.slide::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+}
+
+.slide-content {
+    position: relative;
+    z-index: 2;
+    padding: 40px;
+    color: white;
+    transform: translateY(20px);
+    opacity: 0;
+    transition: all 0.8s ease 0.3s;
+}
+
+.slide.active .slide-content {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.slide-content h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.slide-content p {
+    font-size: 16px;
+    opacity: 0.9;
+}
+
+.carousel-indicators {
+    position: absolute;
+    bottom: 20px;
+    right: 40px;
+    display: flex;
+    gap: 8px;
+    z-index: 3;
+}
+
+.indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.indicator.active {
+    background: #fff;
+    width: 25px;
+    border-radius: 5px;
+}
+
+/* Loader & Success Overlay (Same as before but tweaked) */
+.loader {
+    display: none;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+button.loading .btn-text {
+    display: none;
+}
+
+button.loading .loader {
+    display: block;
+}
+
+.success-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(8, 7, 16, 0.98);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+
+.success-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.success-overlay h2 {
+    color: white;
+    font-size: 2rem;
+    margin-top: 20px;
+}
+
+.success-overlay p {
+    color: #aaa;
+    margin-top: 10px;
+}
+
+/* Checkmark Animation (Same as before) */
+.checkmark-wrapper {
+    width: 100px;
+    height: 100px;
+}
+
+.checkmark__circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 2;
+    stroke: #7ac142;
+    fill: none;
+    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: block;
+    stroke-width: 2;
+    stroke: #fff;
+    box-shadow: inset 0px 0px 0px #7ac142;
+    animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+}
+
+.checkmark__check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+@keyframes stroke {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes scale {
+
+    0%,
+    100% {
+        transform: none;
+    }
+
+    50% {
+        transform: scale3d(1.1, 1.1, 1);
+    }
+}
+
+@keyframes fill {
+    100% {
+        box-shadow: inset 0px 0px 0px 50px #7ac142;
+    }
+}

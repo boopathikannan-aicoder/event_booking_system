@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Horizon | Booking System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --primary-dark: #5a4fcf;
+            --secondary: #fd79a8;
+            --accent: #00cec9;
+            --dark: #2d3436;
+            --light: #f9f9f9;
+            --gray: #dfe6e9;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+            animation: slideDown 0.8s ease;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            color: var(--secondary);
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 4rem 0;
+            text-align: center;
+            background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), 
+                        url('https://images.unsplash.com/photo-1511578314322-379afb476865?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80');
+            background-size: cover;
+            background-position: center;
+            animation: fadeIn 1s ease;
+        }
+        
+        .hero h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: colorShift 4s infinite alternate;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            color: #666;
+        }
+        
+        .search-box {
+            max-width: 600px;
+            margin: 2rem auto;
+            display: flex;
+            box-shadow: var(--shadow);
+            border-radius: 50px;
+            overflow: hidden;
+            animation: float 3s infinite ease-in-out;
+        }
+        
+        .search-box input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: none;
+            font-size: 1rem;
+            outline: none;
+        }
+        
+        .search-box button {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0 2rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .search-box button:hover {
+            background: #e84393;
+        }
+        
+        /* Events Section */
+        .section-title {
+            text-align: center;
+            margin: 3rem 0;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5rem;
+            color: var(--dark);
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            width: 100px;
+            height: 5px;
+            background: var(--accent);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 5px;
+        }
+        
+        .events-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .event-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            animation: fadeUp 0.8s ease;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+        
+        .event-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .event-image {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .event-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        
+        .event-card:hover .event-image img {
+            transform: scale(1.05);
+        }
+        
+        .event-content {
+            padding: 1.5rem;
+        }
+        
+        .event-title {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        
+        .event-date, .event-location {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .event-date i, .event-location i {
+            margin-right: 8px;
+            color: var(--primary);
+        }
+        
+        .event-description {
+            margin: 1rem 0;
+            color: #555;
+        }
+        
+        .event-price {
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .btn-book {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            font-size: 1rem;
+        }
+        
+        .btn-book:hover {
+            background: var(--primary-dark);
+        }
+        
+        /* Booking Form */
+        .booking-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .booking-form {
+            background: white;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 15px;
+            padding: 2rem;
+            position: relative;
+            animation: scaleUp 0.5s ease;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #666;
+            transition: var(--transition);
+        }
+        
+        .close-btn:hover {
+            color: var(--secondary);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--gray);
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(108, 92, 231, 0.2);
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .btn-submit {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 1rem;
+            width: 100%;
+            margin-top: 1rem;
+        }
+        
+        .btn-submit:hover {
+            background: var(--primary-dark);
+        }
+        
+        /* Bookings Section */
+        .bookings-container {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 4rem;
+            animation: fadeUp 0.8s ease;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+        
+        .booking-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--gray);
+            transition: var(--transition);
+        }
+        
+        .booking-item:hover {
+            background: #f8f9fa;
+        }
+        
+        .booking-item:last-child {
+            border-bottom: none;
+        }
+        
+        .booking-info h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        
+        .booking-info p {
+            color: #666;
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.3rem;
+        }
+        
+        .booking-info i {
+            margin-right: 8px;
+            color: var(--primary);
+        }
+        
+        .booking-actions button {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+        
+        .booking-actions button:hover {
+            background: #00b5ad;
+        }
+        
+        .no-bookings {
+            text-align: center;
+            padding: 3rem;
+            color: #999;
+        }
+        
+        .no-bookings i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--gray);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 0 2rem;
+            margin-top: 4rem;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-column {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-column h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent);
+            padding-left: 5px;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .social-icons a:hover {
+            background: var(--accent);
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideDown {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+        
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes scaleUp {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes colorShift {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+        
+        /* Animation delays for cards */
+        .event-card:nth-child(1) { animation-delay: 0.1s; }
+        .event-card:nth-child(2) { animation-delay: 0.2s; }
+        .event-card:nth-child(3) { animation-delay: 0.3s; }
+        .event-card:nth-child(4) { animation-delay: 0.4s; }
+        .event-card:nth-child(5) { animation-delay: 0.5s; }
+        .event-card:nth-child(6) { animation-delay: 0.6s; }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .nav-links {
+                margin-top: 1.5rem;
+                justify-content: center;
+            }
+            
+            .nav-links li {
+                margin: 0 0.5rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .booking-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .booking-actions {
+                margin-top: 1rem;
+                width: 100%;
+            }
+            
+            .booking-actions button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-calendar-alt"></i>
+                Event Horizon
+            </div>
+            <ul class="nav-links">
+                <li><a href="#events" class="active">Events</a></li>
+                <li><a href="#bookings">My Bookings</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Discover Amazing Events</h1>
+            <p>Book tickets for the most exciting concerts, conferences, workshops, and more. Experience unforgettable moments with our curated events.</p>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search events by name, location, or category...">
+                <button id="searchBtn"><i class="fas fa-search"></i> Search</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section id="events">
+        <div class="container">
+            <h2 class="section-title">Upcoming Events</h2>
+            <div class="events-container" id="eventsContainer">
+                <!-- Events will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Form Modal -->
+    <div class="booking-modal" id="bookingModal">
+        <div class="booking-form">
+            <button class="close-btn" id="closeModal">&times;</button>
+            <h2>Book Your Tickets</h2>
+            <form id="bookingForm">
+                <div class="form-group">
+                    <label for="eventName">Event</label>
+                    <input type="text" id="eventName" class="form-control" readonly>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" id="fullName" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" class="form-control" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tickets">Number of Tickets</label>
+                        <select id="tickets" class="form-control" required>
+                            <option value="1">1 Ticket</option>
+                            <option value="2">2 Tickets</option>
+                            <option value="3">3 Tickets</option>
+                            <option value="4">4 Tickets</option>
+                            <option value="5">5 Tickets</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="payment">Payment Method</label>
+                    <select id="payment" class="form-control" required>
+                        <option value="credit">Credit Card</option>
+                        <option value="debit">Debit Card</option>
+                        <option value="paypal">PayPal</option>
+                        <option value="transfer">Bank Transfer</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="specialRequests">Special Requests (Optional)</label>
+                    <textarea id="specialRequests" class="form-control" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn-submit">Complete Booking</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bookings Section -->
+    <section id="bookings">
+        <div class="container">
+            <h2 class="section-title">My Bookings</h2>
+            <div class="bookings-container" id="bookingsContainer">
+                <!-- Bookings will be dynamically loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Event Horizon</h3>
+                    <p>Your premier destination for discovering and booking the most exciting events around the world. We connect people with unforgettable experiences.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#events">All Events</a></li>
+                        <li><a href="#bookings">My Bookings</a></li>
+                        <li><a href="#">Create Event</a></li>
+                        <li><a href="#">Become a Partner</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Event Street, City, Country</li>
+                        <li><i class="fas fa-phone"></i> +1 (234) 567-8900</li>
+                        <li><i class="fas fa-envelope"></i> info@eventhorizon.com</li>
+                        <li><i class="fas fa-clock"></i> Mon-Fri: 9AM-6PM</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Event Horizon. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Event data with online images
+        const events = [
+            {
+                id: 1,
+                title: "Summer Music Festival",
+                date: "August 15-17, 2023",
+                location: "Central Park, New York",
+                description: "Join us for the biggest music festival of the year featuring top artists from around the world.",
+                price: "$99",
+                image: "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+            },
+            {
+                id: 2,
+                title: "Tech Innovation Conference",
+                date: "September 5-6, 2023",
+                location: "San Francisco, CA",
+                description: "Explore the future of technology with industry leaders and innovative startups.",
+                price: "$249",
+                image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+            },
+            {
+                id: 3,
+                title: "Food & Wine Expo",
+                date: "October 12-14, 2023",
+                location: "Chicago, IL",
+                description: "Taste exquisite cuisine and fine wines from around the globe.",
+                price: "$75",
+                image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+            },
+            {
+                id: 4,
+                title: "Yoga & Wellness Retreat",
+                date: "November 3-5, 2023",
+                location: "Sedona, Arizona",
+                description: "Rejuvenate your mind and body with expert-led yoga sessions in a peaceful natural setting.",
+                price: "$199",
+                image: "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2120&q=80"
+            },
+            {
+                id: 5,
+                title: "Art Exhibition Opening",
+                date: "July 28, 2023",
+                location: "Los Angeles, CA",
+                description: "Experience contemporary art from emerging and established artists.",
+                price: "$35",
+                image: "https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80"
+            },
+            {
+                id: 6,
+                title: "Startup Pitch Competition",
+                date: "December 8, 2023",
+                location: "Austin, Texas",
+                description: "Watch innovative startups pitch to top investors for funding opportunities.",
+                price: "FREE",
+                image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+            }
+        ];
+
+        // Bookings array to store user bookings
+        let bookings = JSON.parse(localStorage.getItem('eventBookings')) || [];
+
+        // DOM Elements
+        const eventsContainer = document.getElementById('eventsContainer');
+        const bookingsContainer = document.getElementById('bookingsContainer');
+        const bookingModal = document.getElementById('bookingModal');
+        const closeModal = document.getElementById('closeModal');
+        const bookingForm = document.getElementById('bookingForm');
+        const eventNameInput = document.getElementById('eventName');
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+
+        // Current event being booked
+        let currentEvent = null;
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            renderEvents();
+            renderBookings();
+            setupEventListeners();
+        });
+
+        // Render events to the page
+        function renderEvents(filteredEvents = events) {
+            eventsContainer.innerHTML = '';
+            
+            filteredEvents.forEach(event => {
+                const eventCard = document.createElement('div');
+                eventCard.className = 'event-card';
+                eventCard.innerHTML = `
+                    <div class="event-image">
+                        <img src="${event.image}" alt="${event.title}">
+                    </div>
+                    <div class="event-content">
+                        <h3 class="event-title">${event.title}</h3>
+                        <div class="event-date">
+                            <i class="far fa-calendar-alt"></i>
+                            ${event.date}
+                        </div>
+                        <div class="event-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            ${event.location}
+                        </div>
+                        <p class="event-description">${event.description}</p>
+                        <div class="event-price">${event.price}</div>
+                        <button class="btn-book" data-id="${event.id}">Book Now</button>
+                    </div>
+                `;
+                eventsContainer.appendChild(eventCard);
+            });
+            
+            // Add event listeners to book buttons
+            document.querySelectorAll('.btn-book').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const eventId = parseInt(e.target.getAttribute('data-id'));
+                    currentEvent = events.find(event => event.id === eventId);
+                    openBookingModal(currentEvent);
+                });
+            });
+        }
+
+        // Render bookings to the page
+        function renderBookings() {
+            bookingsContainer.innerHTML = '';
+            
+            if (bookings.length === 0) {
+                bookingsContainer.innerHTML = `
+                    <div class="no-bookings">
+                        <i class="far fa-calendar-times"></i>
+                        <h3>No Bookings Yet</h3>
+                        <p>Book your first event to see it here!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            bookings.forEach((booking, index) => {
+                const bookingItem = document.createElement('div');
+                bookingItem.className = 'booking-item';
+                bookingItem.innerHTML = `
+                    <div class="booking-info">
+                        <h4>${booking.eventTitle}</h4>
+                        <p><i class="far fa-calendar-alt"></i> ${booking.eventDate}</p>
+                        <p><i class="fas fa-map-marker-alt"></i> ${booking.eventLocation}</p>
+                        <p><i class="fas fa-user"></i> ${booking.fullName}</p>
+                        <p><i class="fas fa-ticket-alt"></i> ${booking.tickets} ticket(s)</p>
+                    </div>
+                    <div class="booking-actions">
+                        <button class="btn-cancel" data-index="${index}">Cancel Booking</button>
+                    </div>
+                `;
+                bookingsContainer.appendChild(bookingItem);
+            });
+            
+            // Add event listeners to cancel buttons
+            document.querySelectorAll('.btn-cancel').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const index = parseInt(e.target.getAttribute('data-index'));
+                    cancelBooking(index);
+                });
+            });
+        }
+
+        // Open booking modal
+        function openBookingModal(event) {
+            eventNameInput.value = event.title;
+            bookingModal.style.display = 'flex';
+        }
+
+        // Close booking modal
+        function closeBookingModal() {
+            bookingModal.style.display = 'none';
+            bookingForm.reset();
+            currentEvent = null;
+        }
+
+        // Handle booking form submission
+        function handleBookingSubmit(e) {
+            e.preventDefault();
+            
+            const bookingData = {
+                eventId: currentEvent.id,
+                eventTitle: currentEvent.title,
+                eventDate: currentEvent.date,
+                eventLocation: currentEvent.location,
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                tickets: document.getElementById('tickets').value,
+                payment: document.getElementById('payment').value,
+                specialRequests: document.getElementById('specialRequests').value,
+                bookingDate: new Date().toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                })
+            };
+            
+            // Add booking to array
+            bookings.push(bookingData);
+            
+            // Save to localStorage
+            localStorage.setItem('eventBookings', JSON.stringify(bookings));
+            
+            // Show success message
+            alert(`Booking successful! You have booked ${bookingData.tickets} ticket(s) for ${bookingData.eventTitle}. A confirmation has been sent to ${bookingData.email}.`);
+            
+            // Close modal and update UI
+            closeBookingModal();
+            renderBookings();
+            
+            // Scroll to bookings section
+            document.getElementById('bookings').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Cancel a booking
+        function cancelBooking(index) {
+            if (confirm('Are you sure you want to cancel this booking?')) {
+                bookings.splice(index, 1);
+                localStorage.setItem('eventBookings', JSON.stringify(bookings));
+                renderBookings();
+            }
+        }
+
+        // Search events
+        function searchEvents() {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            
+            if (searchTerm === '') {
+                renderEvents();
+                return;
+            }
+            
+            const filteredEvents = events.filter(event => 
+                event.title.toLowerCase().includes(searchTerm) ||
+                event.location.toLowerCase().includes(searchTerm) ||
+                event.description.toLowerCase().includes(searchTerm)
+            );
+            
+            renderEvents(filteredEvents);
+            
+            // Show message if no results
+            if (filteredEvents.length === 0) {
+                eventsContainer.innerHTML = `
+                    <div class="no-bookings" style="width:100%">
+                        <i class="fas fa-search"></i>
+                        <h3>No Events Found</h3>
+                        <p>Try searching with different keywords.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Close modal when close button is clicked
+            closeModal.addEventListener('click', closeBookingModal);
+            
+            // Close modal when clicking outside the form
+            bookingModal.addEventListener('click', (e) => {
+                if (e.target === bookingModal) {
+                    closeBookingModal();
+                }
+            });
+            
+            // Handle form submission
+            bookingForm.addEventListener('submit', handleBookingSubmit);
+            
+            // Handle search
+            searchBtn.addEventListener('click', searchEvents);
+            searchInput.addEventListener('keyup', (e) => {
+                if (e.key === 'Enter') {
+                    searchEvents();
+                }
+            });
+            
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        // Update active nav link
+                        document.querySelectorAll('.nav-links a').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        this.classList.add('active');
+                        
+                        // Scroll to target
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+            
+            // Update active nav link on scroll
+            window.addEventListener('scroll', () => {
+                const sections = document.querySelectorAll('section');
+                const navLinks = document.querySelectorAll('.nav-links a');
+                
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (scrollY >= sectionTop - 200) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>

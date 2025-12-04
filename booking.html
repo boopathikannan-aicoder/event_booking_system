@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Ticket - Event Booking System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">EventBooker</div>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="admin.html">Admin</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="booking-container">
+            <h2>Book Your Ticket</h2>
+            <p>Booking for: <strong id="event-name-display">Loading...</strong></p>
+
+            <form id="booking-form">
+                <input type="hidden" id="event-id">
+
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="tickets">Number of Tickets</label>
+                    <input type="number" id="tickets" min="1" max="10" value="1" required>
+                </div>
+
+                <button type="submit" class="btn">Confirm Booking</button>
+            </form>
+        </div>
+    </main>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="modal">
+        <div class="modal-content">
+            <div style="font-size: 3rem; margin-bottom: 20px;">✅</div>
+            <h2>Booking Confirmed!</h2>
+            <p>Your ticket has been booked successfully.</p>
+            <p>Ticket ID: <strong id="ticket-id-display"></strong></p>
+            <br>
+            <a href="index.html" class="btn">Back to Home</a>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 EventBooker. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
